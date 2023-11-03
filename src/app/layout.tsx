@@ -38,9 +38,9 @@ export default function RootLayout({
         className={cn("font-sans antialiased bg-background", inter.variable)}
       >
         <Providers>
-          <main className="flex min-h-screen flex-col items-center justify-between p-24">
+          <main className="flex min-h-screen flex-col items-center justify-between py-24 px-4">
             <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex lg:">
-              <div className="fixed justify-between left-0 top-0 flex w-full gap-x-4 items-center px-6 justify-center border-b lg:border-b-0 border-gray-300 max-lg:bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit lg:static lg:w-auto lg:rounded-xl">
+              <div className="fixed justify-between left-0 top-0 flex w-full gap-x-4 items-center px-6 border-b lg:border-b-0 border-gray-300 max-lg:bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit lg:static lg:w-auto lg:rounded-xl">
                 <Link href="/">
                   <Image
                     src="/next.svg"

@@ -5,8 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
+import { useAccount } from "wagmi";
 
 function Account({ params }: { params: { slug: string } }) {
+  const { toast } = useToast();
+  const { address } = useAccount();
+
   return (
     <div className="max-w-5xl relative py-8">
       <h1 className="text-3xl font-extrabold text-center mb-8">User Account</h1>
@@ -133,7 +138,19 @@ function Account({ params }: { params: { slug: string } }) {
         <TabsContent value="comments">No comments.</TabsContent>
       </Tabs>
       <div className="flex justify-center mt-10">
-        <Button onClick={() => alert("TODO")} className="w-full lg:w-auto">
+        <Button
+          onClick={() => {
+            if (address) {
+              // subscribe();
+            } else {
+              toast({
+                variant: "destructive",
+                description: "Please connect your wallet first",
+              });
+            }
+          }}
+          className="w-full lg:w-auto"
+        >
           Send Gift
         </Button>
       </div>

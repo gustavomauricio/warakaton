@@ -87,10 +87,7 @@ export function SearchDialog() {
                 onClick={() => setIsOpen(false)}
               >
                 <Avatar>
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
-                  />
+                  <AvatarImage src={account.avatar} alt={account.name} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <p className="pl-2">

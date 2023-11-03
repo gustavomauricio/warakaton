@@ -38,8 +38,8 @@ async function Leaderboard() {
   const leaderboardData = await fetchLeaderBoardData();
 
   return (
-    <div>
-      <h1 className="text-3xl font-extrabold text-center mb-4">Leaderboard</h1>
+    <div className="max-w-full">
+      <h1 className="text-3xl font-extrabold text-center mb-8">Leaderboard</h1>
 
       <Table>
         {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
