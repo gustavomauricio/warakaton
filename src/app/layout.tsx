@@ -40,7 +40,7 @@ export default function RootLayout({
         <Providers>
           <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex lg:">
-              <div className="fixed left-0 top-0 flex w-full gap-x-4 items-center px-6 justify-center border-b lg:border-b-0 border-gray-300 max-lg:bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit lg:static lg:w-auto lg:rounded-xl">
+              <div className="fixed justify-between left-0 top-0 flex w-full gap-x-4 items-center px-6 justify-center border-b lg:border-b-0 border-gray-300 max-lg:bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit lg:static lg:w-auto lg:rounded-xl">
                 <Link href="/">
                   <Image
                     src="/next.svg"
@@ -51,13 +51,13 @@ export default function RootLayout({
                 </Link>
                 <SearchDialog />
               </div>
-              <div className="fixed flex items-center bottom-0 left-0 h-24 w-full justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-                <div className="flex gap-x-4 items-center tracking-wider flex-wrap justify-center">
+              <div className="fixed flex items-center bottom-0 left-0 h-24 w-full justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none flex-wrap gap-x-5">
+                <div className="flex gap-x-4 items-center tracking-wider justify-center">
                   <Link href="/leaderboard">Leaderboard</Link>
                   <Link href="/profile">Profile</Link>
                   <Link href="/inbox">Inbox</Link>
-                  <w3m-button />
                 </div>
+                <w3m-button />
               </div>
             </div>
 
