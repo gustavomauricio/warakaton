@@ -78,7 +78,7 @@ export function SearchDialog() {
             <Copy className="h-4 w-4" />
           </Button> */}
         </div>
-        <div className="h-[220px] overflow-auto flex flex-col gap-y-2">
+        <div className="h-[300px] overflow-auto flex flex-col gap-y-2">
           {accountsFiltered.map((account) => (
             <Link key={account.id} href={`/account/${account.username}`}>
               <Button
