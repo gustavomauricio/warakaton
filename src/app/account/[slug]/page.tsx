@@ -25,8 +25,21 @@ const fetchTwitterData = async (username: string) => {
   }>;
 };
 
+const fetchUserData = async (username: string) => {
+  return {
+    creatorsHelped: 13,
+    donatedAmountUsd: 666,
+    donationsReceivedUsd: 123123,
+    bio: `Bio - Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
+    dicta quidem sunt quasi nulla aliquid alias labore? Omnis excepturi
+    quis sapiente a maiores, veritatis, tempora modi impedit aspernatur
+    neque consectetur?`,
+  };
+};
+
 async function Account({ params }: { params: { slug: string } }) {
   const twitterData = await fetchTwitterData(params.slug);
+  const userData = await fetchUserData(params.slug);
 
   return (
     <div className="max-w-5xl relative py-8">
@@ -47,10 +60,7 @@ async function Account({ params }: { params: { slug: string } }) {
           </a>
         </div>
         <div className="bg-primary-foreground p-3 rounded-lg">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
-          dicta quidem sunt quasi nulla aliquid alias labore? Omnis excepturi
-          quis sapiente a maiores, veritatis, tempora modi impedit aspernatur
-          neque consectetur?
+          {userData.bio}
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-10">
@@ -71,7 +81,12 @@ async function Account({ params }: { params: { slug: string } }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">
+              $
+              {userData.donationsReceivedUsd.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
+            </div>
             <p className="text-xs text-muted-foreground">
               +20.1% from last month
             </p>
@@ -97,14 +112,16 @@ async function Account({ params }: { params: { slug: string } }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+{twitterData.followers}</div>
-            {/* <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               +180.1% from last month
-            </p> */}
+            </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Creators Helped
+            </CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -120,7 +137,7 @@ async function Account({ params }: { params: { slug: string } }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
+            <div className="text-2xl font-bold">+{userData.creatorsHelped}</div>
             <p className="text-xs text-muted-foreground">
               +19% from last month
             </p>
@@ -128,7 +145,9 @@ async function Account({ params }: { params: { slug: string } }) {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Amount Donated
+            </CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -143,7 +162,12 @@ async function Account({ params }: { params: { slug: string } }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
+            <div className="text-2xl font-bold">
+              $
+              {userData.donatedAmountUsd.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+              })}
+            </div>
             <p className="text-xs text-muted-foreground">
               +201 since last hour
             </p>
