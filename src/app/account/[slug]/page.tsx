@@ -1,16 +1,32 @@
-"use client";
-
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/components/ui/use-toast";
-import { useAccount } from "wagmi";
+import AccountControls from "./account-controls";
 
-function Account({ params }: { params: { slug: string } }) {
-  const { toast } = useToast();
-  const { address } = useAccount();
+const API_URL = process.env.API_URL;
+
+const fetchTwitterData = async (username: string) => {
+  const res = await fetch(`${API_URL}/getUserInfo?username=${username}`);
+
+  // Recommendation: handle errors
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json() as Promise<{
+    name: string;
+    avatar: string;
+    followers: number;
+    following: number;
+    tweets: number;
+    created_at: string;
+  }>;
+};
+
+async function Account({ params }: { params: { slug: string } }) {
+  const twitterData = await fetchTwitterData(params.slug);
 
   return (
     <div className="max-w-5xl relative py-8">
@@ -18,10 +34,17 @@ function Account({ params }: { params: { slug: string } }) {
       <div className="mb-5 flex gap-x-8">
         <div>
           <Avatar className="h-20 w-20 mb-2">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src={twitterData.avatar} alt={params.slug} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <p className="text-center">@{params.slug}</p>
+          <a
+            className="underline underline-offset-4 hover:text-primary"
+            href={`https://twitter.com/${params.slug}`}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            @{params.slug}
+          </a>
         </div>
         <div className="bg-primary-foreground p-3 rounded-lg">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
@@ -56,7 +79,7 @@ function Account({ params }: { params: { slug: string } }) {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
+            <CardTitle className="text-sm font-medium">Followers</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -73,10 +96,10 @@ function Account({ params }: { params: { slug: string } }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-2xl font-bold">+{twitterData.followers}</div>
+            {/* <p className="text-xs text-muted-foreground">
               +180.1% from last month
-            </p>
+            </p> */}
           </CardContent>
         </Card>
         <Card>
@@ -138,21 +161,7 @@ function Account({ params }: { params: { slug: string } }) {
         <TabsContent value="comments">No comments.</TabsContent>
       </Tabs>
       <div className="flex justify-center mt-10">
-        <Button
-          onClick={() => {
-            if (address) {
-              // subscribe();
-            } else {
-              toast({
-                variant: "destructive",
-                description: "Please connect your wallet first",
-              });
-            }
-          }}
-          className="w-full lg:w-auto"
-        >
-          Send Gift
-        </Button>
+        <AccountControls />
       </div>
     </div>
   );

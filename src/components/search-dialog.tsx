@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const accounts = [
   {
@@ -79,6 +80,23 @@ export function SearchDialog() {
           </Button> */}
         </div>
         <div className="h-[300px] overflow-auto flex flex-col gap-y-2">
+          {searchValue && (
+            <Link href={`/account/${searchValue}`}>
+              <Button
+                className="flex justify-between w-full h-[58px]"
+                variant="outline"
+                onClick={() => setIsOpen(false)}
+              >
+                <div className="text-left">
+                  <p className="text-xs text-muted-foreground">
+                    Search for handle
+                  </p>
+                  <p>@{searchValue}</p>
+                </div>
+                <ArrowRight />
+              </Button>
+            </Link>
+          )}
           {accountsFiltered.map((account) => (
             <Link key={account.id} href={`/account/${account.username}`}>
               <Button
