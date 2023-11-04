@@ -104,7 +104,7 @@ export default function ExampleComponent() {
                   ) : (
                     <>
                       <div>You are subscribed</div>
-                      <div>Subscription: {JSON.stringify(subscription)}</div>
+                      {/* <div>Subscription: {JSON.stringify(subscription)}</div> */}
                       <div>Messages: {JSON.stringify(messages)}</div>
                     </>
                   )}
