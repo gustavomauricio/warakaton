@@ -1,15 +1,22 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React from "react";
-import { useAccount } from "wagmi";
+import React, { useEffect } from "react";
+import { useAccount, useContractRead } from "wagmi";
+import { usersDBAbi } from "@/abis/usersDB";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatAddress } from "@/lib/utils";
+import { contracts } from "@/config";
 
 function Profile() {
   const { address } = useAccount();
 
-  const twitterAccount = null;
+  const { data } = useContractRead({
+    address: contracts.usersDB,
+    abi: usersDBAbi,
+    functionName: "getTwitterHandleFromAddress",
+    args: address ? [address] : undefined,
+  });
 
   return (
     <div className="max-w-full">
@@ -31,7 +38,7 @@ function Profile() {
           </p>
           <p>
             Twitter:{" "}
-            {twitterAccount || (
+            {data || (
               <>
                 <code className="font-mono font-bold">Not Connected</code>
                 {address && (
