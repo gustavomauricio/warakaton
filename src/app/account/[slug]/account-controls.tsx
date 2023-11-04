@@ -2,18 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useAccount } from "wagmi";
 
-function AccountControls() {
+function AccountControls({ twitterHandle }: { twitterHandle: string }) {
   const { toast } = useToast();
   const { address } = useAccount();
+  const router = useRouter();
 
   return (
     <Button
       onClick={() => {
         if (address) {
-          // subscribe();
+          router.push(`/account/${twitterHandle}/donate`);
         } else {
           toast({
             variant: "destructive",

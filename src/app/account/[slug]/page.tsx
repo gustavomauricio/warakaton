@@ -185,7 +185,7 @@ async function Account({ params }: { params: { slug: string } }) {
         <TabsContent value="comments">No comments.</TabsContent>
       </Tabs>
       <div className="flex justify-center mt-10">
-        <AccountControls />
+        <AccountControls twitterHandle={params.slug} />
       </div>
     </div>
   );
