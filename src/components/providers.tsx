@@ -41,5 +41,9 @@ createWeb3Modal({
 });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>;
+  return (
+    <SessionProvider>
+      <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
+    </SessionProvider>
+  );
 }
