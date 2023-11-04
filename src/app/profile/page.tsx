@@ -31,9 +31,6 @@ function Profile() {
   const handleLogout = async () => {
     await signOut({ callbackUrl: "/profile" });
   };
-  const [twitterHandle, setTwitterHandle] = useState("");
-  const isButtonDisabled = !twitterHandle.trim();
-  let twitterAccount = null;
 
   return (
     <div className="max-w-full">
@@ -45,9 +42,8 @@ function Profile() {
           )}
           <AvatarFallback>RF</AvatarFallback>
         </Avatar>
-        {/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
 
-        <p className="text-center">@{twitterHandle}</p>
+        <p className="text-center">@{session.data?.user?.name}</p>
         <div>
           <p className="mb-2">
             Address:{" "}
@@ -57,29 +53,16 @@ function Profile() {
           </p>
           <p>
             Twitter:{" "}
-            {data ? (
+            {session?.status === "authenticated" ? (
               <>
                 <code className="font-mono font-bold">Connected</code>
-                <Button
-                  size="sm"
-                  className={`ml-5 ${
-                    isButtonDisabled ? "opacity-50" : "opacity-100"
-                  }`} // Apply conditional opacity based on the button's disabled state
-                  onClick={handleLogout}
-                >
+                <Button size="sm" className="ml-5" onClick={handleLogout}>
                   Logout
                 </Button>
               </>
             ) : (
               <>
                 <code className="font-mono font-bold">Not Connected</code>
-                <input
-                  type="text"
-                  placeholder="@twitterhandle"
-                  value={twitterHandle}
-                  onChange={(e) => setTwitterHandle(e.target.value)}
-                  className="mx-2 p-1 border rounded"
-                />
                 {address && (
                   <Button
                     size="sm"
