@@ -17,7 +17,7 @@ const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN as string;
 
 export default function ExampleComponent() {
   const { toast } = useToast();
-  const isReady = useInitWeb3InboxClient({ projectId });
+  const isReady = useInitWeb3InboxClient({ projectId, domain: appDomain });
 
   const { address } = useAccount();
 
