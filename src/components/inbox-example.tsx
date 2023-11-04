@@ -61,11 +61,13 @@ export default function ExampleComponent() {
     }
   }, [signMessage, registerIdentity, account]);
 
-  useEffect(() => {
+  const handleSubscribe = useCallback(async () => {
     if (!identityKey) {
-      handleRegistration();
+      await handleRegistration();
     }
-  }, [handleRegistration, identityKey]);
+
+    await subscribe();
+  }, [subscribe, identityKey, handleRegistration]);
 
   return (
     <div className="flex gap-y-2 flex-col">
@@ -84,7 +86,7 @@ export default function ExampleComponent() {
       <Button
         onClick={() => {
           if (address) {
-            subscribe();
+            handleSubscribe();
           } else {
             toast({
               variant: "destructive",
