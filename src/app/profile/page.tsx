@@ -43,7 +43,6 @@ function Profile() {
           <AvatarFallback>RF</AvatarFallback>
         </Avatar>
 
-        <p className="text-center">@{session.data?.user?.name}</p>
         <div>
           <p className="mb-2">
             Address:{" "}
@@ -55,7 +54,7 @@ function Profile() {
             Twitter:{" "}
             {data ? (
               <>
-                <code className="font-mono font-bold">Connected</code>
+                <code className="font-mono font-bold">@{data}</code>
                 <Button size="sm" className="ml-5" onClick={handleLogout}>
                   Logout
                 </Button>
