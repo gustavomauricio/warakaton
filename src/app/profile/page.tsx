@@ -38,7 +38,7 @@ function Profile() {
       <div className="flex gap-x-4">
         <Avatar className="h-20 w-20 mb-2">
           {session.status === "authenticated" && (
-            <AvatarImage src={session.data?.user?.image} alt="@shadcn" />
+            <AvatarImage src={session.data?.user?.image ?? ""} alt="@shadcn" />
           )}
           <AvatarFallback>RF</AvatarFallback>
         </Avatar>
@@ -53,7 +53,7 @@ function Profile() {
           </p>
           <p>
             Twitter:{" "}
-            {session?.status === "authenticated" ? (
+            {data ? (
               <>
                 <code className="font-mono font-bold">Connected</code>
                 <Button size="sm" className="ml-5" onClick={handleLogout}>
