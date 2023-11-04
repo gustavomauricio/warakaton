@@ -27,11 +27,13 @@ const fetchData = async (urls: string[]) => {
         description: string;
         image: string;
         attributes: { trait_type: string; value: string }[];
+        jsonUrl: string;
       };
 
       return {
         ...json,
         image: parseIpfsUrl(json.image),
+        jsonUrl: url,
       };
     })
   );

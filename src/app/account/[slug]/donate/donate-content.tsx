@@ -5,12 +5,15 @@ import { ArrowRight } from "lucide-react";
 import React from "react";
 import { getContract } from "viem";
 import { nftGiftsAbi } from "@/abis/nftGifts";
-import { useWalletClient, erc20ABI } from "wagmi";
+import { useWalletClient, erc20ABI, useAccount } from "wagmi";
 import { contracts } from "@/config";
 import { NftData } from "./page";
+import { useToast } from "@/components/ui/use-toast";
 
 function Donate({ options }: { options: NftData[] }) {
   const { data: walletClient } = useWalletClient();
+  const { address } = useAccount();
+  const { toast } = useToast();
 
   const handleDonateClick = async (nftUrl: string) => {
     const contract = getContract({
@@ -20,21 +23,47 @@ function Donate({ options }: { options: NftData[] }) {
       walletClient: walletClient || undefined,
     });
 
-    const wrappedEthContract = getContract({
-      address: contracts.wrappedEth,
-      abi: erc20ABI,
-      publicClient,
-      walletClient: walletClient || undefined,
-    });
-
-    console.log(walletClient?.chain);
+    // const wrappedEthContract = getContract({
+    //   address: contracts.wrappedEth,
+    //   abi: erc20ABI,
+    //   publicClient,
+    //   walletClient: walletClient || undefined,
+    // });
 
     // const res = await wrappedEthContract.write.approve([
     //   contracts.nftGifts,
-    //   BigInt(1),
+    //   BigInt(100000000012312313123123123),
     // ]);
 
-    const res2 = await contract.write.mintGift([nftUrl, "elonmusk"]);
+    try {
+      const { request } = await publicClient.simulateContract({
+        account: address,
+        address: contracts.nftGifts,
+        abi: nftGiftsAbi,
+        functionName: "mintGift",
+        args: ["elonmusk", nftUrl],
+      });
+
+      await walletClient?.writeContract(request);
+
+      toast({
+        description: "Successfully donated!",
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        toast({
+          variant: "destructive",
+          description: e.message,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          description: "An error occurred",
+        });
+      }
+    }
+
+    // const res2 = await contract.write.mintGift([nftUrl, "elonmusk"]);
 
     // 2. Call contract methods, fetch events, listen to events, etc.
     // const result = await contract.read.totalSupply();
@@ -57,7 +86,7 @@ function Donate({ options }: { options: NftData[] }) {
           <button
             key={index}
             className="flex items-center space-x-4 flex-1 rounded-2xl"
-            onClick={() => handleDonateClick(entry.image)}
+            onClick={() => handleDonateClick(entry.jsonUrl)}
           >
             <img
               src={entry.image}
