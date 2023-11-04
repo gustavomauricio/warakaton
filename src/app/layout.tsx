@@ -6,14 +6,6 @@ import Providers from "@/components/providers";
 import Link from "next/link";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { SearchDialog } from "@/components/search-dialog";
 
 export const inter = Inter({
