@@ -2,29 +2,29 @@ const usersDBAbi = [
   {
     inputs: [],
     stateMutability: "nonpayable",
-    type: "constructor"
+    type: "constructor",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "owner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "OwnableInvalidOwner",
-    type: "error"
+    type: "error",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "account",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "OwnableUnauthorizedAccount",
-    type: "error"
+    type: "error",
   },
   {
     anonymous: false,
@@ -33,17 +33,17 @@ const usersDBAbi = [
         indexed: true,
         internalType: "address",
         name: "previousOwner",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "address",
         name: "newOwner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "OwnershipTransferred",
-    type: "event"
+    type: "event",
   },
   {
     anonymous: false,
@@ -52,55 +52,55 @@ const usersDBAbi = [
         indexed: true,
         internalType: "address",
         name: "userAddress",
-        type: "address"
+        type: "address",
       },
       {
         indexed: true,
         internalType: "string",
         name: "userHandle",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     name: "userAdded",
-    type: "event"
+    type: "event",
   },
   {
     inputs: [
       {
         internalType: "string",
         name: "handle_",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     name: "getAddressFromTwitterHandle",
     outputs: [
       {
         internalType: "address",
         name: "",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "address_",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "getTwitterHandleFromAddress",
     outputs: [
       {
         internalType: "string",
         name: "",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
@@ -109,59 +109,58 @@ const usersDBAbi = [
       {
         internalType: "address",
         name: "",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     stateMutability: "view",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [],
     name: "renounceOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "newOwner",
-        type: "address"
-      }
+        type: "address",
+      },
     ],
     name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function"
+    type: "function",
   },
   {
     inputs: [
       {
         internalType: "address",
         name: "address_",
-        type: "address"
+        type: "address",
       },
       {
         internalType: "string",
         name: "twitterHandle_",
-        type: "string"
-      }
+        type: "string",
+      },
     ],
     name: "writeTwitterHandle",
     outputs: [
       {
         internalType: "bool",
         name: "",
-        type: "bool"
-      }
+        type: "bool",
+      },
     ],
     stateMutability: "nonpayable",
-    type: "function"
-  }
-]
-  
-  export { usersDBAbi };
-  
+    type: "function",
+  },
+] as const;
 
-  //TODO: change this when new contracts are deployed
+export { usersDBAbi };
+
+//TODO: change this when new contracts are deployed
