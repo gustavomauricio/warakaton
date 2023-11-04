@@ -5,6 +5,7 @@ import React from "react";
 
 import { WagmiConfig } from "wagmi";
 import { arbitrum } from "wagmi/chains";
+import { SessionProvider } from "next-auth/react";
 
 // 1. Get projectId
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
@@ -41,5 +42,9 @@ createWeb3Modal({
 });
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>;
+  return (
+    <SessionProvider>
+      <WagmiConfig config={wagmiConfig}>{children}</WagmiConfig>
+    </SessionProvider>
+  );
 }
