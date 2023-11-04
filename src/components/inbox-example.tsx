@@ -2,7 +2,7 @@
 
 import {
   useManageSubscription,
-  // useSubscription,
+  useSubscription,
   useW3iAccount,
   useInitWeb3InboxClient,
   useMessages,
@@ -16,89 +16,104 @@ const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
 const appDomain = process.env.NEXT_PUBLIC_APP_DOMAIN as string;
 
 export default function ExampleComponent() {
-  const { toast } = useToast();
-  const isReady = useInitWeb3InboxClient({ projectId, domain: appDomain });
-
   const { address } = useAccount();
-
-  // Getting the account -- Use register before attempting to subscribe
-  const {
-    account,
-    setAccount,
-    register: registerIdentity,
-    identityKey,
-  } = useW3iAccount();
-
   const { signMessageAsync } = useSignMessage();
 
-  // Checking if subscribed
-  const { subscribe, isSubscribed } = useManageSubscription(account);
+  // Initialize the Web3Inbox SDK
+  const isReady = useInitWeb3InboxClient({
+    // The project ID and domain you setup in the Domain Setup section
+    projectId,
+    domain: appDomain,
 
-  const { messages } = useMessages();
+    // Allow localhost development with "unlimited" mode.
+    // This authorizes this dapp to control notification subscriptions for all domains (including `app.example.com`), not just `window.location.host`
+    isLimited: false,
+  });
 
-  const signMessage = useCallback(
-    async (message: string) => {
-      const res = await signMessageAsync({
-        message,
-      });
-
-      return res as string;
-    },
-    [signMessageAsync]
-  );
-
+  const { account, setAccount, isRegistered, isRegistering, register } =
+    useW3iAccount();
   useEffect(() => {
-    if (!Boolean(address)) return;
+    if (!address) return;
+    // Convert the address into a CAIP-10 blockchain-agnostic account ID and update the Web3Inbox SDK with it
     setAccount(`eip155:1:${address}`);
   }, [address, setAccount]);
 
-  const handleRegistration = useCallback(async () => {
-    if (!account) return;
+  // In order to authorize the dapp to control subscriptions, the user needs to sign a SIWE message which happens automatically when `register()` is called.
+  // Depending on the configuration of `domain` and `isLimited`, a different message is generated.
+  const performRegistration = useCallback(async () => {
+    if (!address) return;
     try {
-      await registerIdentity(signMessage);
+      await register((message) => signMessageAsync({ message }));
     } catch (registerIdentityError) {
-      console.error({ registerIdentityError });
+      alert(registerIdentityError);
     }
-  }, [signMessage, registerIdentity, account]);
+  }, [signMessageAsync, register, address]);
 
-  const handleSubscribe = useCallback(async () => {
-    if (!identityKey) {
-      await handleRegistration();
-    }
+  useEffect(() => {
+    // Register even if an identity key exists, to account for stale keys
+    performRegistration();
+  }, [performRegistration]);
 
+  const { isSubscribed, isSubscribing, subscribe } = useManageSubscription();
+
+  const performSubscribe = useCallback(async () => {
+    // Register again just in case
+    await performRegistration();
     await subscribe();
-  }, [subscribe, identityKey, handleRegistration]);
+  }, [subscribe, isRegistered]);
+
+  const { subscription } = useSubscription();
+  const { messages } = useMessages();
 
   return (
-    <div className="flex gap-y-2 flex-col">
-      <p>
-        Client is{" "}
-        <code className="font-mono font-bold">
-          {isReady ? "Ready" : "Not Ready"}
-        </code>
-      </p>
-      <p>
-        You are{" "}
-        <code className="font-mono font-bold">
-          {isSubscribed ? "Subscribed" : "Not Subscribed"}
-        </code>
-      </p>
-      <Button
-        onClick={() => {
-          if (address) {
-            handleSubscribe();
-          } else {
-            toast({
-              variant: "destructive",
-              description: "Please connect your wallet first",
-            });
-          }
-        }}
-      >
-        {" "}
-        Subscribe to current dapp{" "}
-      </Button>
-      <div> All your messages in JSON: {JSON.stringify(messages)}</div>
-    </div>
+    <>
+      {!isReady ? (
+        <div>Loading client...</div>
+      ) : (
+        <>
+          {!address ? (
+            <div>Connect your wallet</div>
+          ) : (
+            <>
+              <div>Address: {address}</div>
+              <div>Account ID: {account}</div>
+              {!isRegistered ? (
+                <div>
+                  To manage notifications, sign and register an identity
+                  key:&nbsp;
+                  <Button
+                    onClick={performRegistration}
+                    disabled={isRegistering}
+                  >
+                    {isRegistering ? "Signing..." : "Sign"}
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  {!isSubscribed ? (
+                    <>
+                      <Button
+                        onClick={performSubscribe}
+                        disabled={isSubscribing}
+                      >
+                        {isSubscribing
+                          ? "Subscribing..."
+                          : "Subscribe to notifications"}
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <div>You are subscribed</div>
+                      <div>Subscription: {JSON.stringify(subscription)}</div>
+                      <div>Messages: {JSON.stringify(messages)}</div>
+                    </>
+                  )}
+                </>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </>
   );
 }
