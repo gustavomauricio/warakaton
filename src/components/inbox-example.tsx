@@ -32,7 +32,7 @@ export default function ExampleComponent() {
   const { signMessageAsync } = useSignMessage();
 
   // Checking if subscribed
-  const { subscribe, isSubscribed } = useManageSubscription();
+  const { subscribe, isSubscribed } = useManageSubscription(account);
 
   const { messages } = useMessages();
 
