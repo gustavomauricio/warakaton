@@ -12,6 +12,7 @@ export const authOptions: AuthOptions = {
     ],
     callbacks: {
       async signIn({ profile }) {
+        
         if (profile) {
           const { screen_name, description } = profile as {
             screen_name: string;
@@ -19,11 +20,11 @@ export const authOptions: AuthOptions = {
           };
   
           if (description.length === 42 && description.startsWith("0x")) {
-            const apiUrl = `${
-              process.env.API_URL
-            }/submit_twitter_handle?address=${encodeURIComponent(
-              description
-            )}&twitter_token=${encodeURIComponent(screen_name)}`;
+              const apiUrl = `${
+                  process.env.API_URL
+                }/submit_twitter_handle?address=${encodeURIComponent(
+                    description
+                    )}&twitter_handle=${encodeURIComponent(screen_name)}&twitter_token=123`;
             try {
               console.log(apiUrl);
               const response = await fetch(apiUrl, {
