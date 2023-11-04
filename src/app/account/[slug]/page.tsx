@@ -4,10 +4,47 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountControls from "./account-controls";
 
+export interface TwitterData {
+  username: string;
+  name: string;
+  avatar: string;
+  tweets: number;
+  followers: number;
+  following: number;
+  created_at: string;
+  address: string;
+  gifts_sent: any[];
+  gifts_received: GiftsReceived[];
+  stats: Stats;
+}
+
+export interface GiftsReceived {
+  sender: string;
+  receiver_twitter_handle: string;
+  gift_uri: string;
+  eth_value: number;
+  redeemed: boolean;
+}
+
+export interface Stats {
+  eth_sent: number;
+  eth_received: number;
+  ranks: Ranks;
+  quests_done: any[];
+}
+
+export interface Ranks {
+  QUESTS: any;
+  CREATORS: number;
+  DONATERS: any;
+}
+
 const API_URL = process.env.API_URL;
 
 const fetchTwitterData = async (username: string) => {
-  const res = await fetch(`${API_URL}/getUserInfo?username=${username}`);
+  const res = await fetch(`${API_URL}/getUserInfo?username=${username}`, {
+    cache: "no-cache",
+  });
 
   // Recommendation: handle errors
   if (!res.ok) {
@@ -15,14 +52,7 @@ const fetchTwitterData = async (username: string) => {
     throw new Error("Failed to fetch data");
   }
 
-  return res.json() as Promise<{
-    name: string;
-    avatar: string;
-    followers: number;
-    following: number;
-    tweets: number;
-    created_at: string;
-  }>;
+  return res.json() as Promise<TwitterData>;
 };
 
 const fetchUserData = async (username: string) => {
@@ -181,7 +211,14 @@ async function Account({ params }: { params: { slug: string } }) {
           <TabsTrigger value="comments">Comments</TabsTrigger>
         </TabsList>
         <TabsContent value="badges">User has no badges.</TabsContent>
-        <TabsContent value="donators">No donations.</TabsContent>
+        <TabsContent value="donators">
+          {twitterData.gifts_received.map((entry, index) => (
+            <div key={index} className="flex gap-x-4">
+              <div>{entry.sender}</div>
+              <div>{entry.eth_value}</div>
+            </div>
+          ))}
+        </TabsContent>
         <TabsContent value="comments">No comments.</TabsContent>
       </Tabs>
       <div className="flex justify-center mt-10">
