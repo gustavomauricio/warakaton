@@ -5,6 +5,7 @@ import React from "react";
 
 import { WagmiConfig } from "wagmi";
 import { arbitrum } from "wagmi/chains";
+import { SessionProvider } from "next-auth/react";
 
 // 1. Get projectId
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string;
