@@ -54,7 +54,8 @@ export default function ExampleComponent() {
     performRegistration();
   }, [performRegistration]);
 
-  const { isSubscribed, isSubscribing, subscribe } = useManageSubscription();
+  const { isSubscribed, isSubscribing, subscribe, unsubscribe } =
+    useManageSubscription();
 
   const performSubscribe = useCallback(async () => {
     // Register again just in case
@@ -106,6 +107,7 @@ export default function ExampleComponent() {
                       <div>You are subscribed</div>
                       {/* <div>Subscription: {JSON.stringify(subscription)}</div> */}
                       <div>Messages: {JSON.stringify(messages)}</div>
+                      <Button onClick={unsubscribe}>Unsubscribe</Button>
                     </>
                   )}
                 </>
