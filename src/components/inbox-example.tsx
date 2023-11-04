@@ -2,7 +2,7 @@
 
 import {
   useManageSubscription,
-  useSubscription,
+  // useSubscription,
   useW3iAccount,
   useInitWeb3InboxClient,
   useMessages,
@@ -19,11 +19,11 @@ export default function ExampleComponent() {
   const { toast } = useToast();
   const isReady = useInitWeb3InboxClient({ projectId });
 
-  const account = useAccount();
-  const { address } = account;
+  const { address } = useAccount();
 
   // Getting the account -- Use register before attempting to subscribe
   const {
+    account,
     setAccount,
     register: registerIdentity,
     identityKey,
@@ -33,9 +33,6 @@ export default function ExampleComponent() {
 
   // Checking if subscribed
   const { subscribe, isSubscribed } = useManageSubscription();
-
-  // Get the subscription
-  const { subscription } = useSubscription();
 
   const { messages } = useMessages();
 
