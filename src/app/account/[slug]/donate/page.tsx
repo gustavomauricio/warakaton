@@ -1,12 +1,12 @@
-import { ArrowRight } from "lucide-react";
 import React from "react";
+import DonateContent from "./donate-content";
 
 const nfts = [
-  "ipfs://bafybeiem3hww2qkwzei3r62jx2xu25nax6zaaunaqag6uyaiuyd2hwgxba/Bronze.json", // 1 wei
-  "ipfs://bafybeiem3hww2qkwzei3r62jx2xu25nax6zaaunaqag6uyaiuyd2hwgxba/Silver.json", // 10 wei
-  "ipfs://bafybeiem3hww2qkwzei3r62jx2xu25nax6zaaunaqag6uyaiuyd2hwgxba/Gold.json", // 100 wei
-  "ipfs://bafybeiem3hww2qkwzei3r62jx2xu25nax6zaaunaqag6uyaiuyd2hwgxba/Platinum.json", // 1000 wei
-  "ipfs://bafybeiem3hww2qkwzei3r62jx2xu25nax6zaaunaqag6uyaiuyd2hwgxba/Diamond.json", // 10000 wei
+  "https://ipfs.io/ipfs/bafybeiaqamevc4eba2dou2pneonc3akgi4iznffvbxaevmgffq23uhtcqu/Bronze.json",
+  "https://ipfs.io/ipfs/bafybeiaqamevc4eba2dou2pneonc3akgi4iznffvbxaevmgffq23uhtcqu/Silver.json",
+  "https://ipfs.io/ipfs/bafybeiaqamevc4eba2dou2pneonc3akgi4iznffvbxaevmgffq23uhtcqu/Gold.json",
+  "https://ipfs.io/ipfs/bafybeiaqamevc4eba2dou2pneonc3akgi4iznffvbxaevmgffq23uhtcqu/Platinum.json",
+  "https://ipfs.io/ipfs/bafybeiaqamevc4eba2dou2pneonc3akgi4iznffvbxaevmgffq23uhtcqu/Diamond.json",
 ];
 
 const parseIpfsUrl = (url: string) => {
@@ -39,33 +39,14 @@ const fetchData = async (urls: string[]) => {
   return res;
 };
 
+export type NftData = Awaited<ReturnType<typeof fetchData>>[number];
+
 async function Donate() {
   const nftsData = await fetchData(nfts);
 
   return (
     <div className="max-w-5xl py-8">
-      <h1 className="text-3xl font-extrabold text-center mb-8">Donate</h1>
-      <div className="flex flex-col gap-y-4">
-        {nftsData.map((entry, index) => (
-          <button
-            key={index}
-            className="flex items-center space-x-4 flex-1 rounded-2xl"
-          >
-            <img
-              src={entry.image}
-              alt=""
-              className="rounded-2xl h-[100px] w-[100px]"
-            />
-            <div className="text-sm font-medium text-left flex-1">
-              <p>{entry.name}</p>
-              <p className="text-muted-foreground text-sm">
-                {1 * 10 ** index} WEI
-              </p>
-            </div>
-            <ArrowRight className="ml-auto" />
-          </button>
-        ))}
-      </div>
+      <DonateContent options={nftsData} />
     </div>
   );
 }
