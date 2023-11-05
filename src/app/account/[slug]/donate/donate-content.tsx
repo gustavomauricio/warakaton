@@ -10,11 +10,19 @@ import { contracts } from "@/config";
 import { NftData } from "./page";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-function Donate({ options }: { options: NftData[] }) {
+function Donate({
+  options,
+  username,
+}: {
+  options: NftData[];
+  username: string;
+}) {
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
   const { toast } = useToast();
+  const router = useRouter();
 
   const { data } = useContractRead({
     address: contracts.wrappedEth,
@@ -37,7 +45,7 @@ function Donate({ options }: { options: NftData[] }) {
         address: contracts.nftGifts,
         abi: nftGiftsAbi,
         functionName: "mintGift",
-        args: ["elonmusk", nftUrl],
+        args: [username, nftUrl],
       });
 
       await walletClient?.writeContract(request);
@@ -109,7 +117,9 @@ function Donate({ options }: { options: NftData[] }) {
   return (
     <>
       <h1 className="text-3xl font-extrabold text-center mb-8">Donate</h1>
-      <p className="mb-10">WETH Balance: {Number(data)}</p>
+      <p className="mb-10">
+        WETH Balance: {Number(data)} - {username}
+      </p>
       <div className="flex flex-col gap-y-4">
         {options.map((entry, index) => (
           <button

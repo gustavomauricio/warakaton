@@ -43,12 +43,12 @@ const fetchData = async (urls: string[]) => {
 
 export type NftData = Awaited<ReturnType<typeof fetchData>>[number];
 
-async function Donate() {
+async function Donate({ params }: { params: { slug: string } }) {
   const nftsData = await fetchData(nfts);
 
   return (
     <div className="max-w-5xl py-8">
-      <DonateContent options={nftsData} />
+      <DonateContent options={nftsData} username={params.slug} />
     </div>
   );
 }
