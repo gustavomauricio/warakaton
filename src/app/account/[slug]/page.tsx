@@ -31,7 +31,7 @@ export interface Stats {
   eth_sent: number;
   eth_received: number;
   ranks: Ranks;
-  quests_done: any[];
+  quests_done: Quest[];
 }
 
 interface Quest {
@@ -39,7 +39,7 @@ interface Quest {
 }
 
 export interface Ranks {
-  QUESTS: Quest;
+  QUESTS: any;
   CREATORS: number;
   DONATERS: any;
 }
@@ -214,7 +214,7 @@ async function Account({ params }: { params: { slug: string } }) {
           ) : (
             <div className="grid grid-cols-3 gap-3">
               {twitterData.stats.quests_done.map((quest, index) => (
-                <img key={index} className="h-36 w-36" src={quest} />
+                <img key={index} className="h-36 w-36" src={quest.badge_uri} />
               ))}
             </div>
           )}
