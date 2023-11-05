@@ -56,21 +56,8 @@ const fetchTwitterData = async (username: string) => {
   return res.json() as Promise<TwitterData>;
 };
 
-const fetchUserData = async (username: string) => {
-  return {
-    creatorsHelped: 13,
-    donatedAmountUsd: 666,
-    donationsReceivedUsd: 123123,
-    bio: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
-    dicta quidem sunt quasi nulla aliquid alias labore? Omnis excepturi
-    quis sapiente a maiores, veritatis, tempora modi impedit aspernatur
-    neque consectetur?`,
-  };
-};
-
 async function Account({ params }: { params: { slug: string } }) {
   const twitterData = await fetchTwitterData(params.slug);
-  const userData = await fetchUserData(params.slug);
 
   return (
     <div className="max-w-5xl relative py-8">
@@ -90,8 +77,8 @@ async function Account({ params }: { params: { slug: string } }) {
             @{params.slug}
           </a>
         </div>
-        <div className="bg-primary-foreground p-3 rounded-lg">
-          {userData.bio}
+        <div className="bg-primary-foreground p-3 text-sm rounded-lg flex-1">
+          User address - {twitterData.address || "No address found"}
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-10">
