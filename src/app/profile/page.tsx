@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { useContractRead, useWalletClient } from "wagmi";
 import { usersDBAbi } from "@/abis/usersDB";
-import { contracts } from "@/config";
 import React, { useState } from "react";
 import { useAccount } from "wagmi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,6 +12,7 @@ import { nftGiftsAbi } from "@/abis/nftGifts";
 import { publicClient } from "@/lib/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
+import useContracts from "@/useContracts";
 
 function Profile() {
   const { address } = useAccount();
@@ -20,6 +20,8 @@ function Profile() {
   const { data: walletClient } = useWalletClient();
   const { toast } = useToast();
   const [nftId, setNftId] = useState<number | undefined>(undefined);
+
+  const contracts = useContracts();
 
   const { data } = useContractRead({
     address: contracts.usersDB,

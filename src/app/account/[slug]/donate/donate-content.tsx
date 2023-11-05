@@ -6,11 +6,10 @@ import React from "react";
 import { getContract } from "viem";
 import { nftGiftsAbi } from "@/abis/nftGifts";
 import { useWalletClient, erc20ABI, useAccount, useContractRead } from "wagmi";
-import { contracts } from "@/config";
 import { NftData } from "./page";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import useContracts from "@/useContracts";
 
 function Donate({
   options,
@@ -22,7 +21,8 @@ function Donate({
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
   const { toast } = useToast();
-  const router = useRouter();
+
+  const contracts = useContracts();
 
   const { data } = useContractRead({
     address: contracts.wrappedEth,

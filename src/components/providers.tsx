@@ -4,7 +4,7 @@ import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import React from "react";
 
 import { WagmiConfig } from "wagmi";
-import { arbitrum } from "wagmi/chains";
+import { arbitrum, polygonZkEvm, gnosis, coreDao } from "wagmi/chains";
 import { SessionProvider } from "next-auth/react";
 
 // 1. Get projectId
@@ -18,7 +18,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-const chains = [arbitrum];
+const chains = [arbitrum, polygonZkEvm, gnosis, coreDao];
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
 // 3. Create modal
