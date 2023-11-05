@@ -162,5 +162,3 @@ const usersDBAbi = [
 ] as const;
 
 export { usersDBAbi };
-
-//TODO: change this when new contracts are deployed

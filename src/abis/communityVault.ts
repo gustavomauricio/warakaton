@@ -861,5 +861,3 @@ const communityVaultAbi = [
 ] as const;
 
 export { communityVaultAbi };
-
-//TODO: change this when new contracts are deployed

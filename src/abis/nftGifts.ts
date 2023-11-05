@@ -575,5 +575,3 @@ const nftGiftsAbi = [
 ] as const;
 
 export { nftGiftsAbi };
-
-//TODO: change this when new contracts are deployed

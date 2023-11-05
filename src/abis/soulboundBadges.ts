@@ -665,5 +665,3 @@ const soulboundBadgesAbi = [
 ] as const;
 
 export { soulboundBadgesAbi };
-
-//TODO: change this when new contracts are deployed
