@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import React from "react";
 import { getContract } from "viem";
 import { nftGiftsAbi } from "@/abis/nftGifts";
-import { useWalletClient, erc20ABI, useAccount } from "wagmi";
+import { useWalletClient, erc20ABI, useAccount, useContractRead } from "wagmi";
 import { contracts } from "@/config";
 import { NftData } from "./page";
 import { useToast } from "@/components/ui/use-toast";
@@ -15,6 +15,13 @@ function Donate({ options }: { options: NftData[] }) {
   const { data: walletClient } = useWalletClient();
   const { address } = useAccount();
   const { toast } = useToast();
+
+  const { data } = useContractRead({
+    address: contracts.wrappedEth,
+    abi: erc20ABI,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
 
   const handleDonateClick = async (nftUrl: string) => {
     // const contract = getContract({
@@ -102,6 +109,7 @@ function Donate({ options }: { options: NftData[] }) {
   return (
     <>
       <h1 className="text-3xl font-extrabold text-center mb-8">Donate</h1>
+      <p className="mb-10">WETH Balance: {Number(data)}</p>
       <div className="flex flex-col gap-y-4">
         {options.map((entry, index) => (
           <button
