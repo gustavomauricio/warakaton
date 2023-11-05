@@ -1,11 +1,16 @@
 "use client";
 
-import { publicClient } from "@/lib/client";
 import { ArrowRight } from "lucide-react";
 import React from "react";
 import { getContract } from "viem";
 import { nftGiftsAbi } from "@/abis/nftGifts";
-import { useWalletClient, erc20ABI, useAccount, useContractRead } from "wagmi";
+import {
+  useWalletClient,
+  erc20ABI,
+  useAccount,
+  useContractRead,
+  usePublicClient,
+} from "wagmi";
 import { NftData } from "./page";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -23,6 +28,7 @@ function Donate({
   const { toast } = useToast();
 
   const contracts = useContracts();
+  const publicClient = usePublicClient();
 
   const { data } = useContractRead({
     address: contracts.wrappedEth,
