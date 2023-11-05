@@ -1,7 +1,7 @@
 import React from "react";
 
-function Error() {
+const error = () => {
   return <div>Error fetching user information!</div>;
-}
+};
 
-export default Error;
+export default error;
