@@ -34,8 +34,12 @@ export interface Stats {
   quests_done: any[];
 }
 
+interface Quest {
+  badge_uri: string;
+}
+
 export interface Ranks {
-  QUESTS: any;
+  QUESTS: Quest;
   CREATORS: number;
   DONATERS: any;
 }
@@ -205,7 +209,15 @@ async function Account({ params }: { params: { slug: string } }) {
         </TabsContent>
         <TabsContent value="badges">User has no badges.</TabsContent>
         <TabsContent value="quests">
-          {JSON.stringify(twitterData.stats.quests_done, null, 2)}
+          {twitterData.stats.quests_done.length === 0 ? (
+            "No quests done yet."
+          ) : (
+            <div className="grid grid-cols-3 gap-3">
+              {twitterData.stats.quests_done.map((quest, index) => (
+                <img key={index} className="h-36 w-36" src={quest} />
+              ))}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
       <div className="flex justify-center mt-10">
