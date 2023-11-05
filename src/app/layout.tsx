@@ -35,7 +35,7 @@ export default function RootLayout({
               <div className="fixed justify-between left-0 top-0 flex w-full gap-x-4 items-center px-6 border-b lg:border-b-0 border-gray-300 max-lg:bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit lg:static lg:w-auto lg:rounded-xl">
                 <Link href="/">
                   <Image
-                    src="/next.svg"
+                    src="/logo_real_fans_no_background.png"
                     alt="Next.js Logo"
                     width={100}
                     height={20}
