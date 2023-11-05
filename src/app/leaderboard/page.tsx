@@ -14,7 +14,10 @@ const API_URL = process.env.API_URL;
 
 const fetchLeaderBoardData = async () => {
   const res = await fetch(
-    `${API_URL}/getLeaderBoards?leaderboard_type=DONATERS`
+    `${API_URL}/getLeaderBoards?leaderboard_type=DONATERS`,
+    {
+      cache: "no-cache",
+    }
   );
 
   // Recommendation: handle errors
@@ -26,7 +29,10 @@ const fetchLeaderBoardData = async () => {
   const donatorsData = await res.json();
 
   const res2 = await fetch(
-    `${API_URL}/getLeaderBoards?leaderboard_type=CREATORS`
+    `${API_URL}/getLeaderBoards?leaderboard_type=CREATORS`,
+    {
+      cache: "no-cache",
+    }
   );
 
   // Recommendation: handle errors
@@ -45,8 +51,6 @@ const fetchLeaderBoardData = async () => {
 
 async function Leaderboard() {
   const leaderboardData = await fetchLeaderBoardData();
-
-  console.log(leaderboardData);
 
   return (
     <div className="max-w-full py-8">
