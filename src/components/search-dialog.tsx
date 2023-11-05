@@ -18,32 +18,33 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-const accounts = [
-  {
-    id: 1,
-    name: "John Doe",
-    username: "johndoe",
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    id: 2,
-    name: "Jane Doe",
-    username: "janedoe",
-    avatar: "https://i.pravatar.cc/150?img=2",
-  },
-  {
-    id: 3,
-    name: "John Smith",
-    username: "johnsmith",
-    avatar: "https://i.pravatar.cc/150?img=3",
-  },
-  {
-    id: 4,
-    name: "Jane Smith",
-    username: "janesmith",
-    avatar: "https://i.pravatar.cc/150?img=4",
-  },
-];
+const accounts: any[] = [];
+// const accounts = [
+//   {
+//     id: 1,
+//     name: "John Doe",
+//     username: "johndoe",
+//     avatar: "https://i.pravatar.cc/150?img=1",
+//   },
+//   {
+//     id: 2,
+//     name: "Jane Doe",
+//     username: "janedoe",
+//     avatar: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     name: "John Smith",
+//     username: "johnsmith",
+//     avatar: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 4,
+//     name: "Jane Smith",
+//     username: "janesmith",
+//     avatar: "https://i.pravatar.cc/150?img=4",
+//   },
+// ];
 
 export function SearchDialog() {
   const [isOpen, setIsOpen] = useState(false);
