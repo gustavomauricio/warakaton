@@ -33,13 +33,11 @@ export default function RootLayout({
           <main className="flex min-h-screen flex-col items-center justify-between py-24 px-4">
             <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex lg:">
               <div className="fixed justify-between left-0 top-0 flex w-full gap-x-4 items-center px-6 border-b lg:border-b-0 border-gray-300 max-lg:bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:from-inherit lg:static lg:w-auto lg:rounded-xl">
-                <Link href="/">
-                  <Image
-                    src="/logo_real_fans_no_background.png"
-                    alt="Next.js Logo"
-                    width={100}
-                    height={20}
-                  />
+                <Link
+                  href="/"
+                  className="font-extrabold text-transparent text-3xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
+                >
+                  Real Fans
                 </Link>
                 <SearchDialog />
               </div>
