@@ -117,9 +117,7 @@ function Donate({
   return (
     <>
       <h1 className="text-3xl font-extrabold text-center mb-8">Donate</h1>
-      <p className="mb-10">
-        WETH Balance: {Number(data)} - {username}
-      </p>
+      <p className="mb-10">WETH Balance: {Number(data)}</p>
       <div className="flex flex-col gap-y-4">
         {options.map((entry, index) => (
           <button
