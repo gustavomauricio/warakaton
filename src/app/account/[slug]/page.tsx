@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountControls from "./account-controls";
 import { formatAddress } from "@/lib/utils";
+import SoulboundToken from "@/components/soulbound-token";
 
 export interface TwitterData {
   username: string;
@@ -212,9 +213,10 @@ async function Account({ params }: { params: { slug: string } }) {
           {twitterData.stats.quests_done.length === 0 ? (
             "No quests done yet."
           ) : (
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2">
               {twitterData.stats.quests_done.map((quest, index) => (
-                <img key={index} className="h-36 w-36" src={quest.badge_uri} />
+                <SoulboundToken jsonUrl={quest.badge_uri} key={index} />
+                // <img key={index} className="h-36 w-36" src={quest.badge_uri} />
               ))}
             </div>
           )}
