@@ -196,7 +196,6 @@ async function Account({ params }: { params: { slug: string } }) {
       <Tabs defaultValue="donators" className="w-[500px] mx-auto">
         <TabsList>
           <TabsTrigger value="donators">Donators</TabsTrigger>
-          <TabsTrigger value="badges">Badges</TabsTrigger>
           <TabsTrigger value="quests">Quests</TabsTrigger>
         </TabsList>
         <TabsContent value="donators">
@@ -208,7 +207,6 @@ async function Account({ params }: { params: { slug: string } }) {
             </div>
           ))}
         </TabsContent>
-        <TabsContent value="badges">User has no badges.</TabsContent>
         <TabsContent value="quests">
           {twitterData.stats.quests_done.length === 0 ? (
             "No quests done yet."
