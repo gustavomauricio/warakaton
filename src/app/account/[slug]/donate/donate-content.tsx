@@ -9,6 +9,7 @@ import { useWalletClient, erc20ABI, useAccount } from "wagmi";
 import { contracts } from "@/config";
 import { NftData } from "./page";
 import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
 
 function Donate({ options }: { options: NftData[] }) {
   const { data: walletClient } = useWalletClient();
@@ -22,18 +23,6 @@ function Donate({ options }: { options: NftData[] }) {
     //   publicClient,
     //   walletClient: walletClient || undefined,
     // });
-
-    const wrappedEthContract = getContract({
-      address: contracts.wrappedEth,
-      abi: erc20ABI,
-      publicClient,
-      walletClient: walletClient || undefined,
-    });
-
-    await wrappedEthContract.write.approve([
-      contracts.nftGifts,
-      BigInt(1000000),
-    ]);
 
     try {
       const { request } = await publicClient.simulateContract({
@@ -78,6 +67,38 @@ function Donate({ options }: { options: NftData[] }) {
     // );
   };
 
+  const handleIncreaseAllowanceClick = async () => {
+    try {
+      const wrappedEthContract = getContract({
+        address: contracts.wrappedEth,
+        abi: erc20ABI,
+        publicClient,
+        walletClient: walletClient || undefined,
+      });
+
+      await wrappedEthContract.write.approve([
+        contracts.nftGifts,
+        BigInt(1000000),
+      ]);
+
+      toast({
+        description: "Success!",
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        toast({
+          variant: "destructive",
+          description: e.message,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          description: "An error occurred",
+        });
+      }
+    }
+  };
+
   return (
     <>
       <h1 className="text-3xl font-extrabold text-center mb-8">Donate</h1>
@@ -102,6 +123,11 @@ function Donate({ options }: { options: NftData[] }) {
             <ArrowRight className="ml-auto" />
           </button>
         ))}
+      </div>
+      <div className="mt-10 flex justify-center">
+        <Button onClick={handleIncreaseAllowanceClick}>
+          Increase Allowance
+        </Button>
       </div>
     </>
   );
