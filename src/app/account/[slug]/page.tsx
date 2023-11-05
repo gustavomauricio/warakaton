@@ -188,13 +188,12 @@ async function Account({ params }: { params: { slug: string } }) {
           </CardContent>
         </Card>
       </div>
-      <Tabs defaultValue="badges" className="w-[500px] mx-auto">
+      <Tabs defaultValue="donators" className="w-[500px] mx-auto">
         <TabsList>
+          <TabsTrigger value="donators">Donators</TabsTrigger>
           <TabsTrigger value="badges">Badges</TabsTrigger>
-          <TabsTrigger value="donators">Top Donators</TabsTrigger>
-          <TabsTrigger value="comments">Comments</TabsTrigger>
+          <TabsTrigger value="quests">Quests</TabsTrigger>
         </TabsList>
-        <TabsContent value="badges">User has no badges.</TabsContent>
         <TabsContent value="donators">
           {twitterData.gifts_received.map((entry, index) => (
             <div key={index} className="flex gap-x-4 justify-between">
@@ -204,7 +203,10 @@ async function Account({ params }: { params: { slug: string } }) {
             </div>
           ))}
         </TabsContent>
-        <TabsContent value="comments">No comments.</TabsContent>
+        <TabsContent value="badges">User has no badges.</TabsContent>
+        <TabsContent value="quests">
+          {JSON.stringify(twitterData.stats.quests_done, null, 2)}
+        </TabsContent>
       </Tabs>
       <div className="flex justify-center mt-10">
         <AccountControls twitterHandle={params.slug} />
