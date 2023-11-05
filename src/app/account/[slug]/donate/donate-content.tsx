@@ -16,24 +16,24 @@ function Donate({ options }: { options: NftData[] }) {
   const { toast } = useToast();
 
   const handleDonateClick = async (nftUrl: string) => {
-    const contract = getContract({
-      address: contracts.nftGifts,
-      abi: nftGiftsAbi,
-      publicClient,
-      walletClient: walletClient || undefined,
-    });
-
-    // const wrappedEthContract = getContract({
-    //   address: contracts.wrappedEth,
-    //   abi: erc20ABI,
+    // const contract = getContract({
+    //   address: contracts.nftGifts,
+    //   abi: nftGiftsAbi,
     //   publicClient,
     //   walletClient: walletClient || undefined,
     // });
 
-    // const res = await wrappedEthContract.write.approve([
-    //   contracts.nftGifts,
-    //   BigInt(100000000012312313123123123),
-    // ]);
+    const wrappedEthContract = getContract({
+      address: contracts.wrappedEth,
+      abi: erc20ABI,
+      publicClient,
+      walletClient: walletClient || undefined,
+    });
+
+    await wrappedEthContract.write.approve([
+      contracts.nftGifts,
+      BigInt(1000000),
+    ]);
 
     try {
       const { request } = await publicClient.simulateContract({
