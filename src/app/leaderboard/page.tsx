@@ -54,7 +54,7 @@ async function Leaderboard() {
 
       <div className="flex flex-col gap-y-10">
         <div>
-          <p className="mb-4 font-medium">Top Donators:</p>
+          <p className="mb-4 font-medium">Top Creators:</p>
           <Table>
             {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
             <TableHeader>
@@ -66,7 +66,7 @@ async function Leaderboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboardData?.topDonators.map((row, index) => (
+              {leaderboardData?.topReceivers.map((row, index) => (
                 <TableRow key={row.address}>
                   <TableCell className="font-medium">{row.rank}</TableCell>
                   <TableCell>{row.profile.username}</TableCell>
@@ -93,7 +93,7 @@ async function Leaderboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboardData?.topReceivers.map((row, index) => (
+              {leaderboardData?.topDonators.map((row, index) => (
                 <TableRow key={row.address}>
                   <TableCell className="font-medium">{row.rank}</TableCell>
                   <TableCell>{row.profile.username}</TableCell>
