@@ -10,71 +10,43 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+const API_URL = process.env.API_URL;
+
 const fetchLeaderBoardData = async () => {
-  // const res = await fetch("https://api.github.com/users");
-  // const data = await res.json();
-  // return data;
+  const res = await fetch(
+    `${API_URL}/getLeaderBoards?leaderboard_type=DONATERS`
+  );
+
+  // Recommendation: handle errors
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  const donatorsData = await res.json();
+
+  const res2 = await fetch(
+    `${API_URL}/getLeaderBoards?leaderboard_type=CREATORS`
+  );
+
+  // Recommendation: handle errors
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  const creatorsData = await res2.json();
 
   return {
-    topDonators: [
-      {
-        address: "0x06Ad5f18F8A772f07429A70Fb877da7937008694",
-        twitterHandle: "@musk",
-        amountUsd: 6666,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@corno",
-        amountUsd: 123,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@whatever",
-        amountUsd: 456,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@whatever",
-        amountUsd: 456,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@whatever",
-        amountUsd: 456,
-      },
-    ],
-    topReceivers: [
-      {
-        address: "0x06Ad5f18F8A772f07429A70Fb877da7937008694",
-        twitterHandle: "@musk",
-        amountUsd: 6666,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@corno",
-        amountUsd: 123,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@whatever",
-        amountUsd: 456,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@whatever",
-        amountUsd: 456,
-      },
-      {
-        address: "0xD3CFE0E43c86BD38fBadB023e4Fe3bc1aefec902",
-        twitterHandle: "@whatever",
-        amountUsd: 456,
-      },
-    ],
+    topDonators: donatorsData.ranks as any[],
+    topReceivers: creatorsData.ranks as any[],
   };
 };
 
 async function Leaderboard() {
   const leaderboardData = await fetchLeaderBoardData();
+
+  console.log(leaderboardData);
 
   return (
     <div className="max-w-full py-8">
@@ -88,23 +60,20 @@ async function Leaderboard() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Rank</TableHead>
-                <TableHead>Address</TableHead>
                 <TableHead>Twitter</TableHead>
+                <TableHead>Address</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboardData.topDonators.map((row, index) => (
+              {leaderboardData?.topDonators.map((row, index) => (
                 <TableRow key={row.address}>
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell className="font-medium">{row.address}</TableCell>
-                  <TableCell>{row.twitterHandle}</TableCell>
-                  <TableCell>
-                    {new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(row.amountUsd)}
+                  <TableCell className="font-medium">{row.rank}</TableCell>
+                  <TableCell>{row.profile.username}</TableCell>
+                  <TableCell className="font-medium">
+                    {row.profile.address}
                   </TableCell>
+                  <TableCell>{row.value} WEI</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -118,23 +87,20 @@ async function Leaderboard() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Rank</TableHead>
-                <TableHead>Address</TableHead>
                 <TableHead>Twitter</TableHead>
+                <TableHead>Address</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboardData.topReceivers.map((row, index) => (
+              {leaderboardData?.topReceivers.map((row, index) => (
                 <TableRow key={row.address}>
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell className="font-medium">{row.address}</TableCell>
-                  <TableCell>{row.twitterHandle}</TableCell>
-                  <TableCell>
-                    {new Intl.NumberFormat("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }).format(row.amountUsd)}
+                  <TableCell className="font-medium">{row.rank}</TableCell>
+                  <TableCell>{row.profile.username}</TableCell>
+                  <TableCell className="font-medium">
+                    {row.profile.address}
                   </TableCell>
+                  <TableCell>{row.value} WEI</TableCell>
                 </TableRow>
               ))}
             </TableBody>
