@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AccountControls from "./account-controls";
+import { formatAddress } from "@/lib/utils";
 
 export interface TwitterData {
   username: string;
@@ -60,7 +61,7 @@ const fetchUserData = async (username: string) => {
     creatorsHelped: 13,
     donatedAmountUsd: 666,
     donationsReceivedUsd: 123123,
-    bio: `Bio - Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
+    bio: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident
     dicta quidem sunt quasi nulla aliquid alias labore? Omnis excepturi
     quis sapiente a maiores, veritatis, tempora modi impedit aspernatur
     neque consectetur?`,
@@ -112,10 +113,7 @@ async function Account({ params }: { params: { slug: string } }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              $
-              {userData.donationsReceivedUsd.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-              })}
+              {twitterData.stats.eth_received} WEI
             </div>
             <p className="text-xs text-muted-foreground">
               +20.1% from last month
@@ -167,7 +165,9 @@ async function Account({ params }: { params: { slug: string } }) {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+{userData.creatorsHelped}</div>
+            <div className="text-2xl font-bold">
+              +{twitterData.gifts_sent.length}
+            </div>
             <p className="text-xs text-muted-foreground">
               +19% from last month
             </p>
@@ -193,10 +193,7 @@ async function Account({ params }: { params: { slug: string } }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              $
-              {userData.donatedAmountUsd.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-              })}
+              {twitterData.stats.eth_sent} WEI
             </div>
             <p className="text-xs text-muted-foreground">
               +201 since last hour
@@ -204,7 +201,7 @@ async function Account({ params }: { params: { slug: string } }) {
           </CardContent>
         </Card>
       </div>
-      <Tabs defaultValue="badges" className="w-[400px] mx-auto">
+      <Tabs defaultValue="badges" className="w-[500px] mx-auto">
         <TabsList>
           <TabsTrigger value="badges">Badges</TabsTrigger>
           <TabsTrigger value="donators">Top Donators</TabsTrigger>
@@ -213,9 +210,10 @@ async function Account({ params }: { params: { slug: string } }) {
         <TabsContent value="badges">User has no badges.</TabsContent>
         <TabsContent value="donators">
           {twitterData.gifts_received.map((entry, index) => (
-            <div key={index} className="flex gap-x-4">
-              <div>{entry.sender}</div>
-              <div>{entry.eth_value}</div>
+            <div key={index} className="flex gap-x-4 justify-between">
+              <div>{formatAddress(entry.sender)}</div>
+              <div>{entry.eth_value} WEI</div>
+              <div className="text-xs">Redeemed: {String(entry.redeemed)}</div>
             </div>
           ))}
         </TabsContent>
