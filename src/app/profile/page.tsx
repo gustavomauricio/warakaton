@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useContractRead } from "wagmi";
+import { useContractRead, useWalletClient } from "wagmi";
 import { usersDBAbi } from "@/abis/usersDB";
 import { contracts } from "@/config";
 import React, { useState } from "react";
@@ -9,10 +9,17 @@ import { useAccount } from "wagmi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatAddress } from "@/lib/utils";
 import { signIn, useSession, signOut } from "next-auth/react";
+import { nftGiftsAbi } from "@/abis/nftGifts";
+import { publicClient } from "@/lib/client";
+import { useToast } from "@/components/ui/use-toast";
+import { Input } from "@/components/ui/input";
 
 function Profile() {
   const { address } = useAccount();
   const session = useSession();
+  const { data: walletClient } = useWalletClient();
+  const { toast } = useToast();
+  const [nftId, setNftId] = useState<number | undefined>(undefined);
 
   const { data } = useContractRead({
     address: contracts.usersDB,
@@ -20,16 +27,69 @@ function Profile() {
     functionName: "getTwitterHandleFromAddress",
     args: address ? [address] : undefined,
   });
+
+  // const { data: giftsData } = useContractRead({
+  //   address: contracts.nftGifts,
+  //   abi: nftGiftsAbi,
+  //   functionName: "getAllDonators",
+  //   args: address ? [address] : undefined,
+  // });
+
+  const handleRedeemClick = async (tokenId: number) => {
+    try {
+      const { request } = await publicClient.simulateContract({
+        account: address,
+        address: contracts.nftGifts,
+        abi: nftGiftsAbi,
+        functionName: "redeemDonation",
+        args: [BigInt(tokenId)],
+      });
+
+      const res = await walletClient?.writeContract(request);
+
+      toast({
+        title: "Successfully redeemed!",
+        description: res,
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        toast({
+          variant: "destructive",
+          description: e.message,
+        });
+      } else {
+        toast({
+          variant: "destructive",
+          description: "An error occurred",
+        });
+      }
+    }
+
+    // const res2 = await contract.write.mintGift([nftUrl, "elonmusk"]);
+
+    // 2. Call contract methods, fetch events, listen to events, etc.
+    // const result = await contract.read.totalSupply();
+    // const logs = await contract.getEvents.Transfer();
+    // const unwatch = contract.watchEvent.Transfer(
+    //   { from: "0xA0Cf798816D4b9b9866b5330EEa46a18382f251e" },
+    //   {
+    //     onLogs(logs) {
+    //       console.log(logs);
+    //     },
+    //   }
+    // );
+  };
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/profile" });
+  };
+
   const verifyTwitterAccount = async () => {
     try {
       await signIn("twitter");
     } catch (error) {
       console.error("Error verifying Twitter account:", error);
     }
-  };
-
-  const handleLogout = async () => {
-    await signOut({ callbackUrl: "/profile" });
   };
 
   return (
@@ -78,8 +138,20 @@ function Profile() {
       </div>
 
       {address && (
-        <div className="flex justify-center mt-10">
-          <Button className="w-full lg:w-auto">Redeem Gifts</Button>
+        <div className="flex justify-center mt-10 gap-x-4">
+          <Input
+            className="w-[100px]"
+            type="number"
+            value={nftId}
+            onChange={(e) => setNftId(e.target.valueAsNumber)}
+            placeholder="NFT ID"
+          />
+          <Button
+            className="w-full lg:w-auto"
+            onClick={() => handleRedeemClick(nftId || 0)}
+          >
+            Redeem Gift
+          </Button>
         </div>
       )}
     </div>
