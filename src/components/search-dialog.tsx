@@ -24,25 +24,29 @@ const accounts = [
     id: 1,
     name: "Elon Musk",
     username: "elonmusk",
-    // avatar: "https://i.pravatar.cc/150?img=1",
+    avatar:
+      "https://pbs.twimg.com/profile_images/1683325380441128960/yRsRRjGO.jpg",
   },
   {
     id: 2,
     name: "Waraka",
     username: "gustavomwy",
-    // // avatar: "https://i.pravatar.cc/150?img=2",
+    avatar:
+      "https://pbs.twimg.com/profile_images/1589324843954102273/IMAk3JXa.jpg",
   },
   {
     id: 3,
     name: "Andreas Ferrera",
     username: "adsv_ferreira",
-    // // avatar: "https://i.pravatar.cc/150?img=3",
+    avatar:
+      "https://pbs.twimg.com/profile_images/1494688120712974343/sgZPK3w2.jpg",
   },
   {
     id: 4,
     name: "Pedro Maurélio",
     username: "dynalzlk",
-    // // avatar: "https://i.pravatar.cc/150?img=4",
+    avatar:
+      "https://pbs.twimg.com/profile_images/1499316315978350595/sPi7LWeV.jpg",
   },
 ];
 
@@ -106,7 +110,7 @@ export function SearchDialog() {
                 onClick={() => setIsOpen(false)}
               >
                 <Avatar>
-                  <AvatarImage src={account.avatar} alt={account.name} />
+                  <AvatarImage src={account?.avatar} alt={account.name} />
                   <AvatarFallback>CN</AvatarFallback>
                 </Avatar>
                 <p className="pl-2">
